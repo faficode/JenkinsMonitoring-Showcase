@@ -1,0 +1,33 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: simple
+spec:
+  selector:
+    app: simple
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 8080
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: simple
+  name: simple
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: simple
+  template:
+    metadata:
+      labels:
+        app: simple
+    spec:
+      containers:
+        - image: gcr.io/google-samples/node-hello:1.0
+          name: hello-world
+          ports:
+            - containerPort: 8080

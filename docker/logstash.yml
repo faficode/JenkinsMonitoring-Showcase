@@ -1,0 +1,7 @@
+pipeline.workers: 2
+pipeline.batch.size: 250
+pipeline.batch.delay: 50
+
+path.config: /usr/share/logstash/config/pipelines/logstash.conf
+
+http.host: 0.0.0.0

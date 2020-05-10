@@ -1,0 +1,40 @@
+= Info
+
+* tools doc: https://cloud.google.com/tools/docs/
+** https://cloud.google.com/sdk/docs/downloads-interactive#linux
+** https://cloud.google.com/compute/docs/regions-zones
+** https://cloud.google.com/apis/docs/overview
+** https://cloud.google.com/tools/docs/
+** https://cloud.google.com/sdk/docs/
+** https://cloud.google.com/sdk/gcloud/reference/
+* https://levelup.gitconnected.com/kubernetes-merge-multiple-yaml-into-one-e8844479a73a
+* get credentials: ```gcloud container clusters get-credentials standard-cluster-1 --zone europe-west3-a --project someproject```
+* create cluster ```gcloud beta container --project "codefudge-playground-1" clusters create "standard-cluster-1" --zone "europe-west3-a" --no-enable-basic-auth --cluster-version "1.12.7-gke.10" --machine-type "n1-standard-2" --image-type "COS" --disk-type "pd-standard" --disk-size "100" --scopes "https://www.googleapis.com/auth/devstorage.read_only","https://www.googleapis.com/auth/logging.write","https://www.googleapis.com/auth/monitoring","https://www.googleapis.com/auth/servicecontrol","https://www.googleapis.com/auth/service.management.readonly","https://www.googleapis.com/auth/trace.append" --num-nodes "1" --no-enable-cloud-logging --no-enable-cloud-monitoring --no-enable-ip-alias --network "projects/codefudge-playground-1/global/networks/default" --subnetwork "projects/codefudge-playground-1/regions/europe-west3/subnetworks/default" --addons HorizontalPodAutoscaling,HttpLoadBalancing --enable-autoupgrade --enable-autorepair```
+* create static ip: ```gcloud compute addresses create web-codefudge-static-ip2 --global```
+* add secret: ```kubectl create secret generic elastic-bootstrap --from-file ~/ops/elasticsearch-6.8.0/config/elasticsearch.keystore```
+* addhoc container run: ```kubectl run -it --image alpine:3.8 --rm debug /bin/sh```
+* ```kubectl get configmaps game-config -o yaml```
+
+
+== Todo
+
+* create cluster: ok
+* deploy logstash: ok
+* deploy kafka (change to sts): ok
+* kafka persistent using shared filesystem
+* pod posting dummy jenkins logs
+* shared filesystem for all
+* java build app (job)
+* deploy cli app
+* destroy all commands
+* kafka multiple brokers
+* fetch k8s credentials
+* test logout/login k8s
+* check google container registry
+* apply nginx controller to cluster
+* deploy app as secret
+* deployments with groovy and @grab
+* filebeats daemon
+* resource definitions
+* log2kafka
+* check broker id kafka if clustered
