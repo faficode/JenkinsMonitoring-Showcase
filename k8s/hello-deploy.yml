@@ -14,18 +14,19 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   labels:
-    app: simple
-  name: simple
+    app: hello
+  name: hello
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: simple
+      app: hello
   template:
     metadata:
       labels:
-        app: simple
+        app: hello
     spec:
+      serviceAccountName: admin-role
       containers:
         - image: gcr.io/google-samples/node-hello:1.0
           name: hello-world

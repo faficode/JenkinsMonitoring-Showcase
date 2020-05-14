@@ -21,10 +21,16 @@
 * create cluster: ok
 * deploy logstash: ok
 * deploy kafka (change to sts): ok
-* kafka persistent using shared filesystem
+* kafka persistence
 * pod posting dummy jenkins logs
 * shared filesystem for all
 * java build app (job)
+* groovy app (@grab)
+** shared file readonly fs
+** github packages
+** nfs
+** secret
+** dummy maven server using nginx
 * deploy cli app
 * destroy all commands
 * kafka multiple brokers
@@ -38,3 +44,7 @@
 * resource definitions
 * log2kafka
 * check broker id kafka if clustered
+* show cluster info using gcloud
+* check helm
+* build has persistent storage
+* latest gradle
