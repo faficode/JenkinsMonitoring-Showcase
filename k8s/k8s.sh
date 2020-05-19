@@ -3,5 +3,8 @@
 file=$1
 
 export CURRENT_TIME=$(date +%Y-%M-%dT%H-%M-%S)
+export KAFKA_SERVERS="kafka-0.kafka:9092"
+export RAW_TOPIC_PATTERN=filebeat-1
+export LOGEVENT_TOPIC=logevent-1
 
 cat $1 | envsubst | kubectl apply -f -

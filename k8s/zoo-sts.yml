@@ -33,6 +33,9 @@ spec:
           name: zoo
           ports:
             - containerPort: 2881
+          volumeMounts:
+            - name: data
+              mountPath: /var/lib/zookeeper
           env:
             - name: ZOOKEEPER_CLIENT_PORT
               value: "2881"
@@ -40,3 +43,12 @@ spec:
               value: "2000"
 #            - name: KAFKA_HEAP_OPTS
 #              value: "Xms1000M Xmx1000M"
+  volumeClaimTemplates:
+    - metadata:
+        name: data
+      spec:
+        accessModes:
+          - ReadWriteOnce
+        resources:
+          requests:
+            storage: 10Gi

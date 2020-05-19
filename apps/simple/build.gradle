@@ -11,6 +11,8 @@ application {
 
 dependencies {
     compile 'org.codehaus.groovy:groovy-all:2.4.15'
+    compile 'org.apache.kafka:kafka-streams:2.5.0'
+    compile 'org.apache.kafka:kafka-clients:2.5.0'
 
     testCompile 'org.spockframework:spock-core:1.1-groovy-2.4'
 }

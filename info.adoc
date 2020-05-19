@@ -14,6 +14,8 @@
 * add secret: ```kubectl create secret generic elastic-bootstrap --from-file ~/ops/elasticsearch-6.8.0/config/elasticsearch.keystore```
 * addhoc container run: ```kubectl run -it --image alpine:3.8 --rm debug /bin/sh```
 * ```kubectl get configmaps game-config -o yaml```
+* https://kafka.apache.org/25/documentation/streams/developer-guide/write-streams.html
+* https://cloud.google.com/kubernetes-engine/docs/
 
 
 == Todo
@@ -48,3 +50,10 @@
 * check helm
 * build has persistent storage
 * latest gradle
+* run as non root/privileged
+* add some jq examples
+* kafka admin examples
+* https://cloud.google.com/kubernetes-engine/docs/
+* ninja builds - log metrics
+* use resource configs
+* node meta crawler

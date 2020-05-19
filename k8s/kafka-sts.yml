@@ -5,13 +5,14 @@ metadata:
 spec:
   selector:
     app: kafka
+  clusterIP: None
   ports:
     - protocol: TCP
-      name: 'internal'
+      name: 'cluster'
       port: 9092
       targetPort: 9092
     - protocol: TCP
-      name: 'external'
+      name: 'internal'
       port: 9091
       targetPort: 9091
 ---
@@ -37,21 +38,40 @@ spec:
         - image: confluentinc/cp-kafka:5.2.4
           name: kafka
           ports:
-            - containerPort: 8080
+            - containerPort: 9091
+            - containerPort: 9092
+          volumeMounts:
+            - name: data
+              mountPath: /var/lib/kafka
           env:
             - name: KAFKA_ZOOKEEPER_CONNECT
-              value: zoo:2881
+              value: "zoo:2881"
             - name: KAFKA_LISTENER_SECURITY_PROTOCOL_MAP
-              value: "INTERNAL:PLAINTEXT,CLUSTER:PLAINTEXT"
+              value: "INTERNAL:PLAINTEXT,CLUSTER:PLAINTEXT,EXTERNAL:PLAINTEXT"
             - name: KAFKA_ADVERTISED_LISTENERS
-              value: "INTERNAL://kafka:9091,CLUSTER://kafka:9092"
-#            - name: KAFKA_BROKER_ID_GENERATION_ENABLE
-#              value: false
+              value: "INTERNAL://kafka-0.kafka:9091,CLUSTER://kafka-0.kafka:9092"
+            - name: KAFKA_BROKER_ID_GENERATION_ENABLE
+              value: "false"
+            - name: KAFKA_BROKER_ID
+              value: "1"
             - name: KAFKA_INTER_BROKER_LISTENER_NAME
               value: "INTERNAL"
+            - name: KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR
+              value: "1"
+            - name: KAFKA_DEFAULT_REPLICATION_FACTOR
+              value: "1"
             - name: KAFKA_HEAP_OPTS
               value: "-Xms1000M -Xmx1000M"
             - name: POD_NAME
               valueFrom:
                 fieldRef:
                   fieldPath: metadata.name
+  volumeClaimTemplates:
+    - metadata:
+        name: data
+      spec:
+        accessModes:
+          - ReadWriteOnce
+        resources:
+          requests:
+            storage: 10Gi
