@@ -84,6 +84,37 @@ class KafkaSpike extends Specification {
         sleep(1000)
     }
 
+    def 'push real jenkins log'() {
+        def lines = new File('jenkinsbuild.log').readLines()
+
+        def client = new ProducerClient<>('kafka-0.kafka:9092',
+                'filebeat-1', KafkaConsts.JSON_SE)
+        client.init()
+
+        def start = Instant.now()
+
+        lines.eachWithIndex { line, n ->
+            def log = new FilebeatEntity(
+                    timestamp: new Date(),
+                    message: line,
+                    fields: new FilebeatEntity.Fields(
+                            master: 'test-jenkins',
+                            protocol: 'https',
+                            domainSuffix: 'streams.nowhere'
+                    ),
+                    log: new FilebeatEntity.Log(offset: 100 * n,
+                            file: new FilebeatEntity.Log.File(path: "/var/jenkins/builds/testbuild-real-log/${start.toString()}/${1}/log"))
+            )
+
+            sleep(100)
+
+            client.send('filebeat-1', null, log)
+        }
+
+        expect:
+        true
+    }
+
     def 'print filebeat entity'() {
         expect:
         println KafkaConsts.JSON.writeValueAsString(new FilebeatEntity(
