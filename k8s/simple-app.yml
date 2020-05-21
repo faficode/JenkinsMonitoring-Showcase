@@ -33,4 +33,4 @@ spec:
         - containerPort: 8080
         command: ["bash", "-ec", "cd /opt
           && curl -O http://repo/simple.zip && unzip simple.zip
-          && ./simple/bin/simple"]
+          && ./simple/bin/simple buildTf kafka-0.kafka:9092 build-agg latest logevent-1 build-1"]

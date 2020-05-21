@@ -1,3 +1,3 @@
 #!/usr/bin/env bash
 
-gcloud container clusters create test-cluster --num-nodes=2
+gcloud container clusters create jenkins-monitoring --num-nodes=3

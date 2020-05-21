@@ -57,3 +57,9 @@
 * ninja builds - log metrics
 * use resource configs
 * node meta crawler
+* timestamp plugin
+* check api proxy
+* kafka meta info in elastic index
+* log size computation
+* logcompaction build
+* agg window

@@ -1,5 +1,7 @@
 package stuff.kafka
 
+import com.fasterxml.jackson.annotation.JsonProperty
+
 class FilebeatEntity {
     static class Fields  {
         String master
@@ -20,4 +22,9 @@ class FilebeatEntity {
     String message
     Fields fields
     Log log
+
+    @JsonProperty("@timestamp")
+    Date getTimestamp() {
+        timestamp
+    }
 }

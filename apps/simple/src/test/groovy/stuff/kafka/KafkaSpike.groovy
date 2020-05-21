@@ -1,5 +1,6 @@
 package stuff.kafka
 
+import com.fasterxml.jackson.databind.ObjectMapper
 import org.apache.kafka.common.serialization.Serdes
 import org.apache.kafka.streams.StreamsBuilder
 import org.apache.kafka.streams.kstream.Consumed
@@ -23,9 +24,11 @@ class KafkaSpike extends Specification {
     }
 
     def 'send filebeat data'() {
+        def random = Random.newInstance()
+
         when:
         def client = new ProducerClient<>('kafka-0.kafka:9092',
-                'filebeat-2', KafkaConsts.JSON_SE)
+                'filebeat-1', KafkaConsts.JSON_SE)
         client.init()
 
         def start = Instant.now()
@@ -41,6 +44,8 @@ class KafkaSpike extends Specification {
                     log: new FilebeatEntity.Log(offset: 100 * it,
                             file: new FilebeatEntity.Log.File(path: "/var/jenkins/builds/testbuild/${start.toString()}/${it}/log"))
             )
+            println it
+            sleep(150 + random.nextInt(200))
 
             def log2 = new FilebeatEntity(
                     timestamp: new Date(),
@@ -54,7 +59,8 @@ class KafkaSpike extends Specification {
                             file: new FilebeatEntity.Log.File(path: "/var/jenkins/builds/testbuild/${start.toString()}/${it}/log"))
             )
 
-            def random = Random.newInstance()
+            sleep(350 + random.nextInt(300))
+
             def log3 = new FilebeatEntity(
                     timestamp: new Date(),
                     message: 'Finished: ' + ['SUCCESS', 'FAILURE', 'ABORTED', 'UNSTABLE', 'NOT_BUILT'][random.nextInt(5)],
@@ -71,11 +77,24 @@ class KafkaSpike extends Specification {
             client.send('filebeat-1', null, log2)
             client.send('filebeat-1', null, log3)
 
-            sleep(50)
+            sleep(250)
         }
 
         then:
         sleep(1000)
+    }
+
+    def 'print filebeat entity'() {
+        expect:
+        println KafkaConsts.JSON.writeValueAsString(new FilebeatEntity(
+                timestamp: new Date(),
+                message: 'hey',
+                fields: new FilebeatEntity.Fields(
+                        master: 'test-jenkins',
+                        protocol: 'https',
+                        domainSuffix: 'streams.nowhere'
+                ),
+        ))
     }
 
     def 'do some streams stuff'() {
@@ -102,6 +121,51 @@ class KafkaSpike extends Specification {
 
         then:
         true
+    }
+
+    def 'do some json streams stuff'() {
+        when:
+        println 'test'
+
+        new StreamsRunner('kafka-0.kafka:9092', 'testapp-json', 'earliest') {
+            @Override
+            StreamsBuilder createTopologyBuilder() {
+                def builder = new StreamsBuilder()
+                KStream<String, String> stream = builder.stream('logevent-1',
+                        Consumed.with(Serdes.String(), KafkaConsts.createJsonSerde(Map)))
+
+                stream
+                        .peek { key, value -> println value }
+//                        .to('someothertopic')
+
+                builder
+            }
+        }.start()
+
+        println 'active'
+
+        sleep(1000000)
+
+        then:
+        true
+    }
+
+    def 'build tf'() {
+        when:
+        def buildTf = new BuildTf('kafka-0.kafka:9092', 'build-agg', 'latest')
+        buildTf.start()
+
+        then:
+        sleep(600000)
+
+    }
+
+    def 'build tf cli'() {
+        when:
+        SimpleApp.main('buildTf', 'kafka-0.kafka:9092', 'build-agg', 'latest', 'logevent-1', 'build-1')
+
+        then:
+        sleep(600000)
     }
 
     def 'poll something'() {
