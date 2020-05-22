@@ -63,3 +63,4 @@
 * log size computation
 * logcompaction build
 * agg window
+* logging tf apps

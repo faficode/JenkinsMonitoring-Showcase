@@ -36,3 +36,22 @@ spec:
           env:
             - name: "discovery.type"
               value: "single-node"
+#          volumeMounts:
+#            - name: data
+#              mountPath: /usr/share/elasticsearch/data
+          resources:
+            requests:
+              memory: "2000Mi"
+              cpu: "500m"
+            limits:
+              memory: "2000Mi"
+              cpu: "500m"
+#  volumeClaimTemplates:
+#    - metadata:
+#        name: data
+#      spec:
+#        accessModes:
+#          - ReadWriteOnce
+#        resources:
+#          requests:
+#            storage: 20Gi

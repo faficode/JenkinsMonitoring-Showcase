@@ -66,6 +66,13 @@ spec:
               valueFrom:
                 fieldRef:
                   fieldPath: metadata.name
+          resources:
+            requests:
+              memory: "1200Mi"
+              cpu: "250m"
+            limits:
+              memory: "1400Mi"
+              cpu: "500m"
   volumeClaimTemplates:
     - metadata:
         name: data

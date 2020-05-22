@@ -10,9 +10,8 @@ spec:
         image: openjdk:8
         command: ["bash",  "-ec",
                   "mkdir -p /tmp/build && cd /tmp/build
-                  && git clone https://github.com/faficode/JenkinsMonitoring-Showcase.git
-                  && cd JenkinsMonitoring-Showcase
-                  && cd apps/simple
+                  && git clone https://github.com/logevents/demo-streaming-apps.git
+                  && cd demo-streaming-apps/transform
                   && ./gradlew distZip
-                  && curl -XPOST --data-binary @build/distributions/simple.zip http://repo/simple.zip"]
+                  && curl -XPOST --data-binary @build/distributions/transform.zip http://repo/transform.zip"]
       restartPolicy: Never

@@ -35,3 +35,10 @@ spec:
           env:
             - name: ELASTICSEARCH_HOSTS
               value: "http://elastic:9200"
+          resources:
+            requests:
+              memory: "1000Mi"
+              cpu: "250m"
+            limits:
+              memory: "1200Mi"
+              cpu: "500m"
