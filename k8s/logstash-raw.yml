@@ -39,8 +39,9 @@ data:
 
     filter {
         mutate { copy => { "[log][file][path]" => "buildTmp" } }
-        mutate { gsub => [ "buildTmp", "^.+/builds/", "/"] }
-        grok { match => { "buildTmp" => "%{PATH:jobName}/%{INT:buildNum:int}/log" } }
+        mutate { gsub => [ "buildTmp", "^.*?/jobs/", "/" ] }
+        mutate { gsub => [ "buildTmp", "/jobs/", "/" ] }
+        grok { match => { "buildTmp" => "%{PATH:jobName}/builds/%{INT:buildNum:int}/log" } }
         mutate { gsub => [ "jobName", "^/", ""] }
         mutate { copy => { "jobName" => "buildUrl" } }
         mutate { split => { "buildUrl" => "/" } }

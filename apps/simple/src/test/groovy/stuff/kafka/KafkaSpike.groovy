@@ -42,7 +42,7 @@ class KafkaSpike extends Specification {
                             domainSuffix: 'streams.nowhere'
                     ),
                     log: new FilebeatEntity.Log(offset: 100 * it,
-                            file: new FilebeatEntity.Log.File(path: "/var/jenkins/builds/testbuild/${start.toString()}/${it}/log"))
+                            file: new FilebeatEntity.Log.File(path: "/var/jenkins/jobs/testbuild/jobs/${start.toString()}/builds/${it}/log"))
             )
             println it
             sleep(150 + random.nextInt(200))
@@ -56,7 +56,7 @@ class KafkaSpike extends Specification {
                             domainSuffix: 'streams.nowhere'
                     ),
                     log: new FilebeatEntity.Log(offset: 100 * it,
-                            file: new FilebeatEntity.Log.File(path: "/var/jenkins/builds/testbuild/${start.toString()}/${it}/log"))
+                            file: new FilebeatEntity.Log.File(path: "/var/jenkins/jobs/testbuild/jobs/${start.toString()}/builds/${it}/log"))
             )
 
             sleep(350 + random.nextInt(300))
@@ -70,7 +70,7 @@ class KafkaSpike extends Specification {
                             domainSuffix: 'streams.nowhere'
                     ),
                     log: new FilebeatEntity.Log(offset: 100 * it,
-                            file: new FilebeatEntity.Log.File(path: "/var/jenkins/builds/testbuild/${start.toString()}/${it}/log"))
+                            file: new FilebeatEntity.Log.File(path: "/var/jenkins/jobs/testbuild/jobs/${start.toString()}/builds/${it}/log"))
             )
 
             client.send('filebeat-1', null, log)
@@ -103,7 +103,7 @@ class KafkaSpike extends Specification {
                             domainSuffix: 'streams.nowhere'
                     ),
                     log: new FilebeatEntity.Log(offset: 100 * n,
-                            file: new FilebeatEntity.Log.File(path: "/var/jenkins/builds/testbuild-real-log/${start.toString()}/${1}/log"))
+                            file: new FilebeatEntity.Log.File(path: "/var/jenkins/jobs/testbuild-real-log/jobs/${start.toString()}/builds/${1}/log"))
             )
 
             sleep(100)
